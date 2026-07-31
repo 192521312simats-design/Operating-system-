@@ -1,0 +1,141 @@
+CO2-ASSESSMENT TOOL-3
+NAME:DEEPIGASRI.R.K
+REG NO:192521312
+COURSE CODE :CSA0409
+COURSE:OPERATING SYSTEM 
+TEST:DEBUGGING
+1. (a). Exact condition that causes dead lock
+The deadlock occurs because P1 and P2 acquire the resources in different orders.
+Execution sequence:
+P1 locks R1.
+P2 locks R2.
+Both processes wait for 100 ms.
+P1 tries to lock R2, but it is already held by P2.
+P2 tries to lock R1, but it is already held by P1.
+Each process waits indefinitely for the other to release the resource.
+This creates a circular wait, resulting in a deadlock.
+The four Coffman conditions for deadlock are present:
+Mutual Exclusion 
+Hold and Wait 
+No Preemption 
+Circular Wait 
+(b) Optimization to eliminate deadlock
+Use a fixed resource ordering (Lock Ordering).
+Both processes should acquire resources in the same order.
+Example:
+Process P1:
+lock(R1)
+lock(R2)
+Critical Section
+unlock(R2)
+unlock(R1)
+Process P2:
+lock(R1)
+lock(R2)
+Critical Section
+unlock(R2)
+unlock(R1)
+Since both processes request resources in the same order, circular wait cannot occur, eliminating deadlock without changing the program logic.
+Q2. CPU Utilization Problem (10 Marks)
+(a) Cause of low CPU utilization
+Although processes are ready, they repeatedly move between:
+Ready → Waiting → Ready → Waiting
+This indicates that the processes are I/O-bound.
+Reasons:
+Processes frequently request I/O operations.
+CPU remains idle while waiting for I/O completion.
+CPU utilization drops to 30% because most time is spent waiting instead of executing.
+(b) System-level optimization
+Increase multiprogramming level
+Keep more processes in memory.
+While one process waits for I/O, another process uses the CPU.
+Use asynchronous I/O or overlap I/O with computation
+Allows CPU execution while I/O operations are in progress.
+Reduces idle CPU time.
+Result:
+Better CPU utilization
+Higher throughput
+Improved system performance
+Q3. Memory Bottleneck Debugging (10 Marks)
+(a) Memory issue causing performance degradation
+Memory usage:
+Code = 5 MB
+Heap = 150 MB
+Stack = 1 MB × 25 threads = 25 MB
+Total memory:
+5 + 150 + 25 = 180 MB
+Although 180 MB is much smaller than 2 GB RAM, the program experiences frequent page faults because:
+The large heap causes poor memory locality.
+Multiple threads access different memory pages.
+Working set exceeds cache efficiency, increasing page faults and reducing performance.
+(b) Two optimizations
+1. Reduce heap usage
+
+Free unused memory.
+Use efficient data structures.
+Reuse memory buffers.
+2. Reduce thread stack size or thread count
+
+Lower stack size if possible.
+Use a thread pool instead of many threads.
+These optimizations reduce memory consumption and page faults.
+Q4. Starvation Debugging (10 Marks)
+(a) Root cause of starvation
+The scheduler uses a Multilevel Queue Scheduling algorithm:
+Q1 → Interactive (Highest Priority)
+Q2 → System
+Q3 → Batch (Lowest Priority)
+Process P5 is in Q3.
+Whenever new processes arrive in Q1 or Q2, they are always executed first.
+As a result:
+P5 continuously waits.
+It never gets CPU time.
+This is called starvation (indefinite blocking).
+(b) Optimization to ensure fairness
+Use Aging.
+Gradually increase the priority of processes waiting for a long time.
+Eventually move P5 to a higher-priority queue.
+Example:
+P5 waits for long time
+↓
+Priority increases
+↓
+Moves from Q3 → Q2 → Q1
+↓
+Gets CPU
+Benefits:
+Prevents starvation.
+Ensures fairness.
+Improves response time for long-waiting processes.
+Q5. Context-Switch Overhead Debugging (10 Marks)
+(a) Why is context switching so high?
+Given:
+
+20,000 context switches/sec
+Average CPU burst = 2 ms
+Time quantum = 1 ms
+Very high I/O frequency
+Reasons:
+1.Very small time quantum (1 ms)
+A thread is preempted before completing its 2 ms CPU burst.
+Every thread requires multiple context switches.
+2.Frequent I/O operations
+Threads frequently block for I/O.
+Each block and wake-up causes additional context switches.
+As a result, the CPU spends significant time saving and restoring process states instead of executing useful work.
+(b) Two optimizations
+1. Increase the time quantum
+Example:
+1 ms → 4 ms or 5 ms
+Benefits:
+Fewer preemptions.
+Reduced context-switch overhead.
+Better CPU efficiency.
+2. Reduce I/O blocking
+Use asynchronous I/O.
+Batch I/O operations.
+Buffer data to reduce the number of I/O requests.
+Benefits:
+Fewer waiting states.
+Fewer context switches.
+Higher throughput.
