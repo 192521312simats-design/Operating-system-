@@ -1,0 +1,26 @@
+#include <stdio.h>
+int main()
+{
+    int n, i;
+    int bt[10], priority[10];
+   printf("Enter number of processes: ");
+    scanf("%d", &n);
+    for(i = 0; i < n; i++)
+    {
+        printf("Burst time P%d: ", i+1);
+        scanf("%d", &bt[i]);
+
+        printf("Priority P%d: ", i+1);
+        scanf("%d", &priority[i]);
+    }
+
+    printf("\nProcesses entered successfully.\n");
+
+    for(i = 0; i < n; i++)
+    {
+        printf("P%d -> BT=%d Priority=%d\n",
+               i+1, bt[i], priority[i]);
+    }
+
+    return 0;
+}
