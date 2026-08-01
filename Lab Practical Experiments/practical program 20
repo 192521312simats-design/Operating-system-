@@ -1,0 +1,7 @@
+#include <stdio.h>
+int main()
+{
+    printf("Reader is reading data\n");
+    printf("Writer is writing data\n");
+ return 0;
+}
