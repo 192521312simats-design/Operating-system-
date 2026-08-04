@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct Employee
+{
+    int id;
+    char name[30];
+    float salary;
+};
+
+int main()
+{
+    FILE *fp;
+    struct Employee emp;
+    int searchId;
+
+    fp = fopen("employee.dat", "wb+");
+
+    if(fp == NULL)
+    {
+        printf("File cannot be opened.");
+        return 1;
+    }
+
+    printf("Enter Employee ID: ");
+    scanf("%d", &emp.id);
+
+    printf("Enter Employee Name: ");
+    scanf("%s", emp.name);
+
+    printf("Enter Employee Salary: ");
+    scanf("%f", &emp.salary);
+
+    fseek(fp, (emp.id - 1) * sizeof(struct Employee), SEEK_SET);
+    fwrite(&emp, sizeof(struct Employee), 1, fp);
+
+    printf("\nEmployee Record Saved Successfully.\n");
+
+    printf("\nEnter Employee ID to Search: ");
+    scanf("%d", &searchId);
+
+    fseek(fp, (searchId - 1) * sizeof(struct Employee), SEEK_SET);
+    fread(&emp, sizeof(struct Employee), 1, fp);
+
+    if(emp.id == searchId)
+    {
+        printf("\nEmployee Details\n");
+        printf("Employee ID : %d\n", emp.id);
+        printf("Employee Name : %s\n", emp.name);
+        printf("Employee Salary : %.2f\n", emp.salary);
+    }
+    else
+    {
+        printf("Record Not Found.\n");
+    }
+
+    fclose(fp);
+
+    return 0;
+}
