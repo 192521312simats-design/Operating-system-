@@ -1,0 +1,62 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Block {
+    int blockNo;
+    struct Block *next;
+};
+
+int main() {
+    int n, i, j, blocks;
+    char filename[20];
+
+    printf("Enter number of files: ");
+    scanf("%d", &n);
+
+    for (i = 0; i < n; i++) {
+        struct Block *head = NULL, *tail = NULL, *newBlock;
+
+        printf("\nEnter file name: ");
+        scanf("%s", filename);
+
+        printf("Enter number of blocks: ");
+        scanf("%d", &blocks);
+
+        for (j = 0; j < blocks; j++) {
+            newBlock = (struct Block *)malloc(sizeof(struct Block));
+
+            printf("Enter block number %d: ", j + 1);
+            scanf("%d", &newBlock->blockNo);
+
+            newBlock->next = NULL;
+
+            if (head == NULL) {
+                head = newBlock;
+                tail = newBlock;
+            } else {
+                tail->next = newBlock;
+                tail = newBlock;
+            }
+        }
+
+        printf("\nFile Name : %s", filename);
+        printf("\nFirst Block : %d", head->blockNo);
+        printf("\nLast Block  : %d", tail->blockNo);
+
+        printf("\nLinked Blocks: ");
+        newBlock = head;
+
+        while (newBlock != NULL) {
+            printf("%d", newBlock->blockNo);
+
+            if (newBlock->next != NULL)
+                printf(" -> ");
+
+            newBlock = newBlock->next;
+        }
+
+        printf("\n");
+    }
+
+    return 0;
+}
